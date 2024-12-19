@@ -23,38 +23,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.guessthat.QuizViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 @Composable
-fun SelectiveQuiz(innerPadding: PaddingValues){
+fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
     Column(modifier = Modifier
         .padding(innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally) {
+        Spacer(modifier = Modifier.height(40.dp))
+        Column {
+            Button(onClick = { viewModel.changeQuestion() }) {
+                Text(text = "Start", fontSize = 25.sp)
+            }
+        }
         Spacer(modifier = Modifier.height(40.dp))
         Column {
             Text(text = "Score", fontSize = 25.sp)
         }
         Spacer(modifier = Modifier.height(40.dp))
         Column {
-            Text(text = "Question")
+            Text(text = viewModel.question)
         }
         Spacer(modifier = Modifier.height(40.dp))
         Column{
             Row{
                 Button(onClick = { /*TODO*/ }) {
-                    Text(text = "Answer 1")
+                    Text(text = viewModel.answer1)
                 }
                 Button(onClick = { /*TODO*/ }) {
-                    Text(text = "Answer 2")
+                    Text(text = viewModel.answer2)
                 }
             }
             Row{
                 Button(onClick = { /*TODO*/ }) {
-                    Text(text = "Answer 3")
+                    Text(text = viewModel.answer3)
                 }
                 Button(onClick = { /*TODO*/ }) {
-                    Text(text = "Answer 4")
+                    Text(text = viewModel.answer4)
                 }
             }
         }

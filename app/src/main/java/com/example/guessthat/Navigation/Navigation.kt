@@ -1,9 +1,11 @@
 package com.example.guessthat.Navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.guessthat.QuizViewModel
 import com.example.guessthat.Screens.EstimationQuizScreen
 import com.example.guessthat.Screens.GameSelectionScreen
 import com.example.guessthat.Screens.GeoQuizScreen
@@ -14,6 +16,7 @@ import com.example.guessthat.Screens.StartScreen
 fun Navigation()
 {
     val navController = rememberNavController()
+    val quizViewModel: QuizViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -29,7 +32,7 @@ fun Navigation()
         }
 
         composable(route = Screen.GeoQuizScreen.route) {
-            GeoQuizScreen(navController)
+            GeoQuizScreen(navController, quizViewModel)
         }
 
         composable(route = Screen.EstimationQuizScreen.route) {
@@ -37,7 +40,7 @@ fun Navigation()
         }
 
         composable(route = Screen.SportsQuizScreen.route) {
-            SportsQuizScreen(navController)
+            SportsQuizScreen(navController, quizViewModel)
         }
 
 

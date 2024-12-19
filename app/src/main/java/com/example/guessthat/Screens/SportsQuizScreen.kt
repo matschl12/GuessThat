@@ -15,13 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.guessthat.Navigation.Screen
+import com.example.guessthat.QuizViewModel
 import com.example.guessthat.widgets.QuizTopAppBar
 import com.example.guessthat.widgets.SelectiveQuiz
 
 @Composable
-fun SportsQuizScreen(navController: NavController) {
+fun SportsQuizScreen(navController: NavController, quizViewModel: QuizViewModel) {
     Scaffold (topBar = { QuizTopAppBar(title = "Sports Quiz", navController = navController) }){
         innerPadding ->
-        SelectiveQuiz(innerPadding)
+        SelectiveQuiz(innerPadding, quizViewModel)
     }
 }
