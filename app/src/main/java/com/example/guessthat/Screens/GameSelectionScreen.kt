@@ -21,6 +21,7 @@ import com.example.guessthat.widgets.QuizTopAppBar
 
 @Composable
 fun GameSelectionScreen(navController: NavController) {
+
     Scaffold(topBar = { QuizTopAppBar(title = "Game Selection", navController = navController) }) {
         innerPadding ->
         Column (

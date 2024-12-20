@@ -1,9 +1,18 @@
 package com.example.guessthat
 
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.guessthat.GameLogic.Question
+import com.example.guessthat.GameLogic.QuizGame
+import com.example.guessthat.GameLogic.getGeoQuestions
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.selects.select
 
 class QuizViewModel: ViewModel(){
 
@@ -17,13 +26,108 @@ class QuizViewModel: ViewModel(){
         private set
     var answer4 by mutableStateOf("")
         private set
+    var score by mutableStateOf(0)
+        private set
+    var solution by mutableStateOf("")
+        private set
+    private val _button1color = MutableStateFlow(Color.LightGray)
+    val button1color = _button1color.asStateFlow()
 
-    fun changeQuestion() {
-        question = "Question"
-        answer1 = "Answer 1"
-        answer2 = "Answer 2"
-        answer3 = "Answer 3"
-        answer4 = "Answer 4"
+    private val _button2color = MutableStateFlow(Color.LightGray)
+    val button2color = _button2color.asStateFlow()
+
+    private val _button3color = MutableStateFlow(Color.LightGray)
+    val button3color = _button3color.asStateFlow()
+
+    private val _button4color = MutableStateFlow(Color.LightGray)
+    val button4color = _button4color.asStateFlow()
+
+
+    var questionNum = 0
+    var questionNumText by mutableStateOf(questionNum.toString())
+        private set
+
+
+    val quizGame: QuizGame = QuizGame("Paul", getGeoQuestions())
+    lateinit var quizQuestions: List<Question>
+
+
+    fun startQuiz() {
+        questionNum = 0
+        score = 0
+        quizQuestions = quizGame.selectGeoQuestions()
+        questionNumText = (questionNum+1).toString()
+        question = quizQuestions[0].question
+        answer1 = quizQuestions[0].answer1
+        answer2 = quizQuestions[0].answer2
+        answer3 = quizQuestions[0].answer3
+        answer4 = quizQuestions[0].answer4
+        solution = quizQuestions[0].solution
+    }
+
+    fun nextQuestion() {
+        questionNum++
+        questionNumText = (questionNum+1).toString()
+        question = quizQuestions[questionNum].question
+        answer1 = quizQuestions[questionNum].answer1
+        answer2 = quizQuestions[questionNum].answer2
+        answer3 = quizQuestions[questionNum].answer3
+        answer4 = quizQuestions[questionNum].answer4
+        solution = quizQuestions[questionNum].solution
+    }
+
+    fun validateAnswer(buttonnum: Int){
+        if (quizQuestions[questionNum].answer1 == quizQuestions[questionNum].solution){
+            _button1color.value = Color.Green
+            _button2color.value = Color.Red
+            _button3color.value = Color.Red
+            _button4color.value = Color.Red
+
+            if(buttonnum == 1)
+            {
+                score += 100
+            }
+
+        }
+        else if (quizQuestions[questionNum].answer2 == quizQuestions[questionNum].solution){
+            _button1color.value = Color.Red
+            _button2color.value = Color.Green
+            _button3color.value = Color.Red
+            _button4color.value = Color.Red
+
+            if(buttonnum == 2)
+            {
+                score += 100
+            }
+        }
+        else if (quizQuestions[questionNum].answer3 == quizQuestions[questionNum].solution){
+            _button1color.value = Color.Red
+            _button2color.value = Color.Red
+            _button3color.value = Color.Green
+            _button4color.value = Color.Red
+
+            if(buttonnum == 3)
+            {
+                score += 100
+            }
+        }
+        else if (quizQuestions[questionNum].answer4 == quizQuestions[questionNum].solution){
+            _button1color.value = Color.Red
+            _button2color.value = Color.Red
+            _button3color.value = Color.Red
+            _button4color.value = Color.Green
+
+            if(buttonnum == 4)
+            {
+                score += 100
+            }
+        }
+    }
+
+    fun startNewGame(){
 
     }
+
+
+
 }

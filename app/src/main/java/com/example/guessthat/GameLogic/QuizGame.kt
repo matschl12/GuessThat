@@ -2,15 +2,14 @@ package com.example.guessthat.GameLogic
 
 
 
-class QuizGame(player: String, questions: Array<Questions>) {
+class QuizGame(player: String, questions: List<Question>) {
 
-    var abcSelectedQuestions = questions
+    val geoQuestions = questions
 
-    fun selectGeoQuestions(): Array<Questions>{
-        var selectedQuestions = abcSelectedQuestions.toList()
+    fun selectGeoQuestions(): List<Question> {
+        var selectedQuestions = geoQuestions
             .shuffled()
             .take(8)
-            .toTypedArray()
 
         return selectedQuestions
     }
