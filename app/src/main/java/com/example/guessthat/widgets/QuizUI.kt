@@ -33,6 +33,8 @@ import kotlinx.coroutines.launch
 fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
     var pressedButton by remember { mutableStateOf(false) }
     var changeQuestionButtonVisibility by remember { mutableStateOf(false) }
+
+    val gameType by viewModel.gameType.collectAsState()
     val button1Color by viewModel.button1color.collectAsState()
     val button2Color by viewModel.button2color.collectAsState()
     val button3Color by viewModel.button3color.collectAsState()
@@ -103,7 +105,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                 if(changeQuestionButtonVisibility && viewModel.questionNum == 7)
                 {
                     Button(onClick = {
-                        viewModel.startQuiz()
+                        viewModel.startQuiz(gameType)
                         pressedButton = false
                         changeQuestionButtonVisibility = false
                     }) {

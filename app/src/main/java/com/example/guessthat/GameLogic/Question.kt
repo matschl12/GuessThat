@@ -7,8 +7,9 @@ data class Question(
     val answer3: String,
     val answer4: String,
     val solution: String,
+    var id: String
 )
-fun getGeoQuestions(): List<Question> {
+fun getQuestions(): List<Question> {
     return listOf(
         Question(
             "Welches ist das Land mit den meisten Einwohnern?",
@@ -16,7 +17,8 @@ fun getGeoQuestions(): List<Question> {
             "China",
             "Indien",
             "USA",
-            "Indien"
+            "Indien",
+            "Geo"
         ),
         Question(
             "Wo befindet sich der Mount Everest?",
@@ -24,7 +26,8 @@ fun getGeoQuestions(): List<Question> {
             "Pakistan",
             "Bangladesh",
             "Nepal",
-            "Nepal"
+            "Nepal",
+            "Geo"
         ),
         Question(
             "Die Hauptstadt der Türkei lautet...",
@@ -32,7 +35,8 @@ fun getGeoQuestions(): List<Question> {
             "Istanbul",
             "Trabzon",
             "Antalya",
-            "Ankara"
+            "Ankara",
+            "Geo"
         ),
         Question(
             "Welches Land ist KEIN Nachbarland Österreichs?",
@@ -40,7 +44,8 @@ fun getGeoQuestions(): List<Question> {
             "Slowakei",
             "Tschechien",
             "Kroaiten",
-            "Kroaiten"
+            "Kroaiten",
+            "Geo"
         ),
         Question(
             "Die Hauptstadt Brasiliens lautet...",
@@ -48,7 +53,8 @@ fun getGeoQuestions(): List<Question> {
             "Brasilia",
             "Rio de Janeiro",
             "Manaus",
-            "Brasilia"
+            "Brasilia",
+            "Geo"
         ),
         Question(
             "Miami befindet sich in welchem Bundesstaat?",
@@ -56,7 +62,8 @@ fun getGeoQuestions(): List<Question> {
             "Kalifornien",
             "Florida",
             "Ohio",
-            "Florida"
+            "Florida",
+            "Geo"
         ),
         Question(
             "Die grösste Insel der Welt ist...",
@@ -64,7 +71,8 @@ fun getGeoQuestions(): List<Question> {
             "Grönland",
             "Grossbritanien",
             "Madagaskar",
-            "Grönland"
+            "Grönland",
+            "Geo"
         ),
         Question(
             "Das kleinste Land der Welt ist...",
@@ -72,7 +80,8 @@ fun getGeoQuestions(): List<Question> {
             "Malta",
             "Monaco",
             "Tuvalu",
-            "Vatikanstaat"
+            "Vatikanstaat",
+            "Geo"
         ),
         Question(
             "Das größte Land Afrikas ist...",
@@ -80,7 +89,8 @@ fun getGeoQuestions(): List<Question> {
             "DR Kongo",
             "Sudan",
             "Ägypten",
-            "Algerien"
+            "Algerien",
+            "Geo"
         ),
         Question(
             "Die meistgesprochene Sprache der Welt ist...",
@@ -88,7 +98,8 @@ fun getGeoQuestions(): List<Question> {
             "Mandarin",
             "Englisch",
             "Spanisch",
-            "Englisch"
+            "Englisch",
+            "Geo"
         ),
         Question(
             "Kasachstan ist ein...",
@@ -96,7 +107,8 @@ fun getGeoQuestions(): List<Question> {
             "Binnenstaat",
             "Küstenstaat",
             "Stadtstaat",
-            "Binnenstaat"
+            "Binnenstaat",
+            "Geo"
         ),
         Question(
             "Budapest ist die Hauptstadt von...",
@@ -104,7 +116,8 @@ fun getGeoQuestions(): List<Question> {
             "Bulgarien",
             "Serbien",
             "Ungarn",
-            "Ungarn"
+            "Ungarn",
+            "Geo"
         ),
         Question(
             "Die größte Insel Griechenlands lautet...",
@@ -112,7 +125,125 @@ fun getGeoQuestions(): List<Question> {
             "Zypern",
             "Mykonos",
             "Santorini",
-            "Kreta"
+            "Kreta",
+                "Geo"
+        ),
+        Question(
+            "Welches Land hat 2022 die Fussball WM gewonnen?",
+            "Frankreich",
+            "Argentinien",
+            "Deutschland",
+            "Brasilien",
+            "Argentinien",
+                "Sport"
+            ),
+            Question(
+                "Erhält man beim American Football 3 Punkte handelt es sich um ein...",
+                "Touchdown",
+                "Safety",
+                "Field Goal",
+                "Foulspiel",
+                "Field Goal",
+                "Sport"
+            ),
+            Question(
+                "Kobe Bryant spielte seine ganze Karriere für die...",
+                "LA Clippers",
+                "Chicago Bulls",
+                "Los Angeles Lakers",
+                "Boston Celtics",
+                "Los Angeles Lakers",
+                "Sport"
+            ),
+            Question(
+                "Trifft ein Spieler beim Golf den Ball direkt vom Abschlag ins Loch handelt es sich um ein...",
+                "Hole-in-one",
+                "Break",
+                "Foul",
+                "Handicap",
+                "Hole-in-one",
+                "Sport"
+            ),
+            Question(
+                "Die ersten Olympischen Spiele der Neuzeit fanden wo statt?",
+                "Paris",
+                "Berlin",
+                "London",
+                "Athen",
+                "Athen",
+                "Sport"
+            ),
+            Question(
+                "Welche Person gewann die meisten Olympischen Medallien",
+                "Usain Bolt",
+                "Michael Phelps",
+                "Isabell Werth",
+                "Simone Biles",
+                "Michael Phelps",
+                "Sport"
+            ),
+            Question(
+                "Welcher Fussballer gewann die meisten Balon'd'Ors",
+                "Cristiano Ronaldo",
+                "Franz Beckenbauer",
+                "Pele",
+                "Lionel Messi",
+                "Lionel Messi",
+                "Sport"
+            ),
+            Question(
+                "Das Finale in der NFL heißt...",
+                "Super Bowl",
+                "NFL Finals",
+                "All-Star Game",
+                "Conference Finals",
+                "Super Bowl",
+                "Sport"
+            ),
+            Question(
+                "Welches Etappenrennen gilt als das wichtigste im Straßenradrennen",
+                "Giro d'italia",
+                "Tour de France",
+                "Vuelta a Espana",
+                "Tour of Austria",
+                "Tour de France",
+                "Sport"
+            ),
+            Question(
+                "Was ist die höchste Gewichtsklasse im Boxen?",
+                "Panzergewicht",
+                "Supergewicht",
+                "Cruisergewicht",
+                "Schwergewicht",
+                "Schwergewicht",
+                "Sport"
+            ),
+            Question(
+                "Welches Event findet von jährlich von Dezember-Jänner im Alexandria Palace statt?",
+                "Handball WM",
+                "Eiskunstlauf-Weltmeisterschaft ",
+                "World Darts Championship",
+                "Balon'd'Or Verleihung",
+                "World Darts Championship",
+                "Sport"
+            ),
+            Question(
+                "Was ist die kürzeste olympische Sprintdistanz? (In Metern)",
+                "100",
+                "60",
+                "50",
+                "80",
+                "100",
+                "Sport"
+            ),
+            Question(
+                "Wie wird beim Tennis bei Satzgleichstand eine Entscheidung erzwungen?",
+                "Münzwurf",
+                "Tie-Break",
+                "Sudden Death",
+                "Silver Goal",
+                "Tie-Break",
+                "Sport"
+            )
         )
-    )
 }

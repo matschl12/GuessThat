@@ -1,7 +1,5 @@
 package com.example.guessthat
 
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,10 +7,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.example.guessthat.GameLogic.Question
 import com.example.guessthat.GameLogic.QuizGame
-import com.example.guessthat.GameLogic.getGeoQuestions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.selects.select
 
 class QuizViewModel: ViewModel(){
 
@@ -42,20 +38,25 @@ class QuizViewModel: ViewModel(){
     private val _button4color = MutableStateFlow(Color.LightGray)
     val button4color = _button4color.asStateFlow()
 
+    private val _gameType = MutableStateFlow("")
+    val gameType = _gameType.asStateFlow()
+
 
     var questionNum = 0
     var questionNumText by mutableStateOf(questionNum.toString())
         private set
 
 
-    val quizGame: QuizGame = QuizGame("Paul", getGeoQuestions())
+
+
     lateinit var quizQuestions: List<Question>
 
 
-    fun startQuiz() {
+    fun startQuiz(gameType: String) {
+        val quizGame: QuizGame = QuizGame("Paul", gameType)
         questionNum = 0
         score = 0
-        quizQuestions = quizGame.selectGeoQuestions()
+        quizQuestions = quizGame.selectQuestions()
         questionNumText = (questionNum+1).toString()
         question = quizQuestions[0].question
         answer1 = quizQuestions[0].answer1
@@ -63,6 +64,7 @@ class QuizViewModel: ViewModel(){
         answer3 = quizQuestions[0].answer3
         answer4 = quizQuestions[0].answer4
         solution = quizQuestions[0].solution
+        _gameType.value = gameType
     }
 
     fun nextQuestion() {

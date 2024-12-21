@@ -27,9 +27,8 @@ import com.example.guessthat.widgets.QuizTopAppBar
 import com.example.guessthat.widgets.SelectiveQuiz
 
 @Composable
-fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel) {
+fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
     var startButtonVisibility by remember { mutableStateOf(true) }
-
     Scaffold(topBar = { QuizTopAppBar(title = "Geo Quiz", navController = navController) }) {
             innerPadding ->
         Column(modifier = Modifier
@@ -39,7 +38,7 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally) {
             if(startButtonVisibility) {
                 Button(onClick = {
-                    viewModel.startQuiz()
+                    viewModel.startQuiz(gameType)
                     startButtonVisibility = false
                 }) {
                     Text(text = "Start", fontSize = 25.sp)

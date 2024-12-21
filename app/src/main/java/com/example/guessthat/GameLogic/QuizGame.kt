@@ -2,17 +2,38 @@ package com.example.guessthat.GameLogic
 
 
 
-class QuizGame(player: String, questions: List<Question>) {
+class QuizGame(player: String, gameType: String) {
 
-    val geoQuestions = questions
+    val questionz = getQuestions()
+    val gameType = gameType
 
-    fun selectGeoQuestions(): List<Question> {
-        var selectedQuestions = geoQuestions
-            .shuffled()
-            .take(8)
+    fun selectQuestions(): List<Question> {
+        if (gameType == "Geo")
+        {
+            var selectedQuestions = questionz
+                .filter{question -> question.id == "Geo"}
+                .shuffled()
+                .take(8)
+            return selectedQuestions
+        }
+        else if (gameType == "Sport")
+        {
+            var selectedQuestions = questionz
+                .filter{question -> question.id == "Sport"}
+                .shuffled()
+                .take(8)
+            return selectedQuestions
+        }
+        else
+        {
+            //placeholder
+            var selectedQuestions = questionz
+            return selectedQuestions
+        }
 
-        return selectedQuestions
     }
+
+
 
 
 
