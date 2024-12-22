@@ -120,28 +120,60 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
 
 
 @Composable
-fun KeyboardQuiz(innerPadding: PaddingValues){
+fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
     var input by remember { mutableStateOf("") }
+    var changeQuestionButtonVisibility by remember { mutableStateOf(false) }
+    val gameType by viewModel.gameType.collectAsState()
     Column(modifier = Modifier
         .padding(innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally)
     {
         Spacer(modifier = Modifier.height(40.dp))
-        Column { 
-            Text(text = "Question")
-      }
+        Column {
+            Text(text = "Score: " + viewModel.score,  fontSize = 25.sp)
+        }
+        Column {
+            Text(text = "Question " + viewModel.questionNumText + "/8", fontSize = 25.sp)
+        }
+        Spacer(modifier = Modifier.height(40.dp))
+        Column {
+            Text(text = viewModel.question)
+        }
         Spacer(modifier = Modifier.height(40.dp))
         Column {
             Row {
                 TextField(value = input, onValueChange = {input = it} )
             }
-            Button(onClick = { /*TODO*/ }, modifier = Modifier
+            Button(onClick = {
+                viewModel.validateEstimation()
+                changeQuestionButtonVisibility = true
+               //need update
+                             }, modifier = Modifier
                 .align(Alignment.CenterHorizontally)) {
                 Text(text = "Submit")
             }
         }
         Spacer(modifier = Modifier.height(40.dp))
-        ProgressTimer()
+        Row{
+            if(changeQuestionButtonVisibility && viewModel.questionNum != 7)
+            {
+                Button(onClick = {
+                    viewModel.nextQuestion()
+                    changeQuestionButtonVisibility = false
+                }) {
+                    Text(text = "Next Question")
+                }
+            }
+            if(changeQuestionButtonVisibility && viewModel.questionNum == 7)
+            {
+                Button(onClick = {
+                    viewModel.startQuiz(gameType)
+                    changeQuestionButtonVisibility = false
+                }) {
+                    Text(text = "Restart Quiz")
+                }
+            }
+        }
 
     }
     

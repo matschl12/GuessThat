@@ -2,10 +2,10 @@ package com.example.guessthat.GameLogic
 
 data class Question(
     val question: String,
-    val answer1: String,
-    val answer2: String,
-    val answer3: String,
-    val answer4: String,
+    val answer1: String?,
+    val answer2: String?,
+    val answer3: String?,
+    val answer4: String?,
     val solution: String,
     var id: String
 )
@@ -244,6 +244,151 @@ fun getQuestions(): List<Question> {
                 "Silver Goal",
                 "Tie-Break",
                 "Sport"
-            )
+            ),
+        Question(
+            question = "Wie viele Katzen lebten 2023 in Deutschland? (In Millionen)",
+            null,
+            null,
+            null,
+            null,
+            "16",
+                "Estimation"
+        ),
+        Question(
+            question = "Wie viele Zimmer hat das weiße Haus?",
+            null,
+            null,
+            null,
+            null,
+            "132",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Eier legt ein Huhn im Jahr durchschnittlich?",
+            null,
+            null,
+            null,
+            null,
+            "300",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie tief ist der tiefste Punkt der Erde? (In Metern)",
+            null,
+            null,
+            null,
+            null,
+            "11034",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Bäume gibt es auf der Welt? (In Milliarden)",
+            null,
+            null,
+            null,
+            null,
+            "3000",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie lang ist die Chinesische Mauer? (In Kilometern)",
+            null,
+            null,
+            null,
+            null,
+            "21196",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie lang dauerte der Hundertjährige Krieg?  (In Jahren)",
+            null,
+            null,
+            null,
+            null,
+            "116",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie groß war Alexander der Große?  (In Zentimetern)",
+            null,
+            null,
+            null,
+            null,
+            "150",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Kinder werden auf der Welt pro Tag geboren?",
+            null,
+            null,
+            null,
+            null,
+            "440000",
+            "Estimation"
+        ),
+        Question(
+            question = "Wann erschien der erste Starwars Film?",
+            null,
+            null,
+            null,
+            null,
+            "1977",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Schafe gibt es in Neuseeland? (In Millionen)",
+            null,
+            null,
+            null,
+            null,
+            "30",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Knochen hat das menschliche Skelett?",
+            null,
+            null,
+            null,
+            null,
+            "212",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Inseln hat Indonesien?",
+            null,
+            null,
+            null,
+            null,
+            "17508",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie schwer ist das IPhone 16? (In Gramm)",
+            null,
+            null,
+            null,
+            null,
+            "170",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Bienen leben in einem Bienenstock?",
+            null,
+            null,
+            null,
+            null,
+            "50000",
+            "Estimation"
+        ),
+        Question(
+            question = "Wie viele Einwohner hat Grönland?",
+            null,
+            null,
+            null,
+            null,
+            "56000",
+            "Estimation"
         )
+
+    )
 }

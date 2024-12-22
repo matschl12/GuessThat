@@ -24,12 +24,16 @@ class QuizGame(player: String, gameType: String) {
                 .take(8)
             return selectedQuestions
         }
-        else
+        else if (gameType == "Estimation")
         {
-            //placeholder
             var selectedQuestions = questionz
+                .filter{question -> question.id == "Estimation"}
+                .shuffled()
+                .take(8)
             return selectedQuestions
         }
+        else
+            return questionz //should never be the case
 
     }
 

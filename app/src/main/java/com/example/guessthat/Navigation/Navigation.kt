@@ -36,7 +36,7 @@ fun Navigation()
         }
 
         composable(route = Screen.EstimationQuizScreen.route) {
-            EstimationQuizScreen(navController)
+            EstimationQuizScreen(navController, quizViewModel, "Estimation")
         }
 
         composable(route = Screen.SportsQuizScreen.route) {
