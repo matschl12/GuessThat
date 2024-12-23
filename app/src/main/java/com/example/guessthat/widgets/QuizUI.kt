@@ -123,6 +123,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
 fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
     var input by remember { mutableStateOf("") }
     var changeQuestionButtonVisibility by remember { mutableStateOf(false) }
+    var submitButtonVisibility by remember { mutableStateOf(true) }
     val gameType by viewModel.gameType.collectAsState()
     Column(modifier = Modifier
         .padding(innerPadding),
@@ -144,13 +145,20 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             Row {
                 TextField(value = input, onValueChange = {input = it} )
             }
-            Button(onClick = {
-                viewModel.validateEstimation()
-                changeQuestionButtonVisibility = true
-               //need update
-                             }, modifier = Modifier
-                .align(Alignment.CenterHorizontally)) {
-                Text(text = "Submit")
+            if(submitButtonVisibility)
+            {
+                Button(onClick = {
+                    viewModel.validateEstimation(input)
+                    changeQuestionButtonVisibility = true
+                    submitButtonVisibility = false
+                }, modifier = Modifier
+                    .align(Alignment.CenterHorizontally)) {
+                    Text(text = "Submit")
+                }
+            }
+            else
+            {
+                Text(text = "Die richtige Antwort lautet " +viewModel.solution)
             }
         }
         Spacer(modifier = Modifier.height(40.dp))
@@ -160,6 +168,8 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                 Button(onClick = {
                     viewModel.nextQuestion()
                     changeQuestionButtonVisibility = false
+                    submitButtonVisibility = true
+                    input = ""
                 }) {
                     Text(text = "Next Question")
                 }
@@ -169,6 +179,8 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                 Button(onClick = {
                     viewModel.startQuiz(gameType)
                     changeQuestionButtonVisibility = false
+                    submitButtonVisibility = true
+                    input = ""
                 }) {
                     Text(text = "Restart Quiz")
                 }

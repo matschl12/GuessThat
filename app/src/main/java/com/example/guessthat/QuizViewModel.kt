@@ -129,12 +129,20 @@ class QuizViewModel: ViewModel(){
         }
     }
 
-    fun validateEstimation(){
+    fun validateEstimation(guess: String){
         //here calculation between guess and solution
         // for now
-        if(estimation.value == quizQuestions[questionNum].solution)
+
+        val guessInt = guess.toDouble()
+
+        val calculation = (guessInt/quizQuestions[questionNum].solution.toDouble())*100
+        if(calculation >= 101 && calculation <= 200)
         {
-            score += 100
+            score += (100-(calculation - 100)).toInt()
+        }
+        else if(calculation >= 0 && calculation <= 100)
+        {
+            score += calculation.toInt()
         }
     }
 
