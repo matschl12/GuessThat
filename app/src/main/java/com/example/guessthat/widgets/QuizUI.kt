@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +35,8 @@ import kotlinx.coroutines.launch
 fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
     var pressedButton by remember { mutableStateOf(false) }
     var changeQuestionButtonVisibility by remember { mutableStateOf(false) }
-
+    var time by remember { mutableStateOf("") }
+    var oldScore by remember { mutableStateOf(0) }
     val gameType by viewModel.gameType.collectAsState()
     val button1Color by viewModel.button1color.collectAsState()
     val button2Color by viewModel.button2color.collectAsState()
@@ -59,14 +62,14 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             Column{
                 Row{
                     Button(onClick = {
-                        viewModel.validateAnswer(1)
+                        viewModel.validateAnswer(1, time.toFloat())
                         pressedButton = true
                         changeQuestionButtonVisibility = true
                     }, enabled = !pressedButton , colors = ButtonDefaults.buttonColors(disabledContainerColor = button1Color)) {
                         Text(text = viewModel.answer1)
                     }
                     Button(onClick = {
-                        viewModel.validateAnswer(2)
+                        viewModel.validateAnswer(2, time.toFloat())
                         pressedButton = true
                         changeQuestionButtonVisibility = true
                     }, enabled = !pressedButton, colors = ButtonDefaults.buttonColors(disabledContainerColor = button2Color)) {
@@ -75,14 +78,14 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                 }
                 Row{
                     Button(onClick = {
-                        viewModel.validateAnswer(3)
+                        viewModel.validateAnswer(3, time.toFloat())
                         pressedButton = true
                         changeQuestionButtonVisibility = true
                     }, enabled = !pressedButton, colors = ButtonDefaults.buttonColors(disabledContainerColor = button3Color)) {
                         Text(text = viewModel.answer3)
                     }
                     Button(onClick = {
-                        viewModel.validateAnswer(4)
+                        viewModel.validateAnswer(4, time.toFloat())
                         pressedButton = true
                         changeQuestionButtonVisibility = true
                     }, enabled = !pressedButton, colors = ButtonDefaults.buttonColors(disabledContainerColor = button4Color)) {
@@ -92,28 +95,77 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             }
             Spacer(modifier = Modifier.height(40.dp))
             Row{
-                if(changeQuestionButtonVisibility && viewModel.questionNum != 7)
+                if ( time == "0.0" && viewModel.questionNum != 7)
                 {
+                    pressedButton = true
                     Button(onClick = {
                         viewModel.nextQuestion()
                         pressedButton = false
                         changeQuestionButtonVisibility = false
+                        time = "1.0"
+                        oldScore = viewModel.score
                     }) {
                         Text(text = "Next Question")
                     }
                 }
-                if(changeQuestionButtonVisibility && viewModel.questionNum == 7)
+                if(changeQuestionButtonVisibility && viewModel.questionNum != 7)
                 {
+                    pressedButton = true
+                    Button(onClick = {
+                        viewModel.nextQuestion()
+                        pressedButton = false
+                        changeQuestionButtonVisibility = false
+                        time = "1.0"
+                        oldScore = viewModel.score
+                    }) {
+                        Text(text = "Next Question")
+                    }
+                }
+                if(time == "0.0" && viewModel.questionNum == 7)
+                {
+                    pressedButton = true
                     Button(onClick = {
                         viewModel.startQuiz(gameType)
                         pressedButton = false
                         changeQuestionButtonVisibility = false
+                        time = "1.0"
+                        oldScore = viewModel.score
+                    }) {
+                        Text(text = "Restart Quiz")
+                    }
+                }
+                if(changeQuestionButtonVisibility && viewModel.questionNum == 7 )
+                {
+                    pressedButton = true
+                    Button(onClick = {
+                        viewModel.startQuiz(gameType)
+                        pressedButton = false
+                        changeQuestionButtonVisibility = false
+                        time = "1.0"
+                        oldScore = viewModel.score
                     }) {
                         Text(text = "Restart Quiz")
                     }
                 }
             }
-            //ProgressTimer()
+            Spacer(modifier = Modifier.height(40.dp))
+            Row{
+                if(!pressedButton)
+                {
+                     ProgressTimer {progress ->
+                         time = progress.toString()
+                     }
+                }
+            }
+            Row {
+                    Text(text = "Remaining Time " + time)
+                }
+            Row {
+                if(changeQuestionButtonVisibility)
+                {
+                    Text(text = "Points made this round " + (viewModel.score - oldScore))
+                }
+            }
         }
 }
 
@@ -124,7 +176,12 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
     var input by remember { mutableStateOf("") }
     var changeQuestionButtonVisibility by remember { mutableStateOf(false) }
     var submitButtonVisibility by remember { mutableStateOf(true) }
+    var textFieldEnabled by remember { mutableStateOf(true) }
     val gameType by viewModel.gameType.collectAsState()
+    var time by remember { mutableStateOf("") }
+    var oldScore by remember { mutableStateOf(0) }
+
+
     Column(modifier = Modifier
         .padding(innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally)
@@ -143,35 +200,67 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
         Spacer(modifier = Modifier.height(40.dp))
         Column {
             Row {
-                TextField(value = input, onValueChange = {input = it} )
+
+                TextField(value = input, onValueChange = {input = it}, enabled = textFieldEnabled )
             }
-            if(submitButtonVisibility)
-            {
                 Button(onClick = {
-                    viewModel.validateEstimation(input)
+                    viewModel.validateEstimation(input,time.toFloat())
                     changeQuestionButtonVisibility = true
                     submitButtonVisibility = false
+                    textFieldEnabled = false
                 }, modifier = Modifier
-                    .align(Alignment.CenterHorizontally)) {
+                    .align(Alignment.CenterHorizontally),
+                    enabled = submitButtonVisibility) {
                     Text(text = "Submit")
                 }
-            }
-            else
+            if(submitButtonVisibility == false && input != "")
             {
                 Text(text = "Die richtige Antwort lautet " +viewModel.solution)
             }
         }
         Spacer(modifier = Modifier.height(40.dp))
         Row{
+            if (time == "0.0" && viewModel.questionNum != 7)
+            {
+                submitButtonVisibility = false
+                Button(onClick = {
+                    viewModel.nextQuestion()
+                    changeQuestionButtonVisibility = false
+                    submitButtonVisibility = true
+                    textFieldEnabled = true
+                    input = ""
+                    time = "1.0"
+                    oldScore = viewModel.score
+                }) {
+                    Text(text = "Next Question")
+                }
+            }
             if(changeQuestionButtonVisibility && viewModel.questionNum != 7)
             {
                 Button(onClick = {
                     viewModel.nextQuestion()
                     changeQuestionButtonVisibility = false
                     submitButtonVisibility = true
+                    textFieldEnabled = true
                     input = ""
+                    oldScore = viewModel.score
                 }) {
                     Text(text = "Next Question")
+                }
+            }
+            if (time == "0.0" && viewModel.questionNum == 7)
+            {
+                submitButtonVisibility = false
+                Button(onClick = {
+                    viewModel.startQuiz(gameType)
+                    changeQuestionButtonVisibility = false
+                    submitButtonVisibility = true
+                    textFieldEnabled = true
+                    input = ""
+                    time = "1.0"
+                    oldScore = viewModel.score
+                }) {
+                    Text(text = "Restart Quiz")
                 }
             }
             if(changeQuestionButtonVisibility && viewModel.questionNum == 7)
@@ -180,13 +269,33 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                     viewModel.startQuiz(gameType)
                     changeQuestionButtonVisibility = false
                     submitButtonVisibility = true
+                    textFieldEnabled = true
                     input = ""
+                    oldScore = viewModel.score
                 }) {
                     Text(text = "Restart Quiz")
                 }
             }
         }
+        Spacer(modifier = Modifier.height(40.dp))
+        Row{
+            if(submitButtonVisibility)
+            {
+                ProgressTimer {progress ->
+                    time = progress.toString()
+                }
+            }
+        }
+        Row {
+            Text(text = "Remaining Time " + time)
+        }
+        Row {
+            if(changeQuestionButtonVisibility)
+            {
+                Text(text = "Points made this round " + (viewModel.score - oldScore))
+            }
 
+        }
     }
     
 }
@@ -198,33 +307,27 @@ fun SelectivePreview(){
 }
 
 @Composable
-fun ProgressTimer() {
+fun ProgressTimer(onProgressChange: (Float) -> Unit) {
     var currentProgress by remember { mutableStateOf(0f) }
-    var loading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(onClick = {
-            loading = true
-            scope.launch {
-                loadProgress { progress ->
-                    currentProgress = progress
-                }
-                loading = false
+    LaunchedEffect(Unit)
+    {
+        scope.launch {
+            loadProgress { progress ->
+                val transformedProgress = 8 * (1 - progress)
+                currentProgress = transformedProgress
+                onProgressChange(transformedProgress)
             }
-        }, enabled = !loading) {
-            Text("Start Loading")
-        }
-
-        if (loading) {
-            LinearProgressIndicator(progress = {currentProgress}, modifier = Modifier.fillMaxWidth())
         }
     }
 
+    LinearProgressIndicator(
+        progress = {1 -  currentProgress / 8f},
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    )
 }
 
 suspend fun loadProgress(updateProgress: (Float) -> Unit ){
