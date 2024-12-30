@@ -30,6 +30,16 @@ fun StartScreen(navController: NavController) {
         Text(
             text = "Start screen",
         )
+        Button(onClick = { navController.navigate(Screen.LoginScreen.route)}) {
+            Text(
+                text = "Login",
+            )
+        }
+        Button(onClick = { navController.navigate(Screen.RegisterScreen.route)}) {
+            Text(
+                text = "Register",
+            )
+        }
         Button(onClick = { navController.navigate(Screen.GameSelectionScreen.route)}) {
             Text(
                 text = "Singleplayer",

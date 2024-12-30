@@ -9,6 +9,8 @@ import com.example.guessthat.QuizViewModel
 import com.example.guessthat.Screens.EstimationQuizScreen
 import com.example.guessthat.Screens.GameSelectionScreen
 import com.example.guessthat.Screens.GeoQuizScreen
+import com.example.guessthat.Screens.LoginScreen
+import com.example.guessthat.Screens.RegisterScreen
 import com.example.guessthat.Screens.SportsQuizScreen
 import com.example.guessthat.Screens.StartScreen
 
@@ -25,6 +27,14 @@ fun Navigation()
 
         composable(route = Screen.StartScreen.route) {
             StartScreen(navController)
+        }
+
+        composable(route = Screen.RegisterScreen.route) {
+           RegisterScreen(navController)
+        }
+
+        composable(route = Screen.LoginScreen.route) {
+            LoginScreen(navController)
         }
 
         composable(route = Screen.GameSelectionScreen.route) {
