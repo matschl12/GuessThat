@@ -5,11 +5,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.guessthat.AuthViewModel
 import com.example.guessthat.QuizViewModel
 import com.example.guessthat.Screens.EstimationQuizScreen
 import com.example.guessthat.Screens.GameSelectionScreen
 import com.example.guessthat.Screens.GeoQuizScreen
 import com.example.guessthat.Screens.LoginScreen
+import com.example.guessthat.Screens.OfflineGameSelectionScreen
 import com.example.guessthat.Screens.RegisterScreen
 import com.example.guessthat.Screens.SportsQuizScreen
 import com.example.guessthat.Screens.StartScreen
@@ -19,6 +21,7 @@ fun Navigation()
 {
     val navController = rememberNavController()
     val quizViewModel: QuizViewModel = viewModel()
+    val authViewModel: AuthViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -30,16 +33,21 @@ fun Navigation()
         }
 
         composable(route = Screen.RegisterScreen.route) {
-           RegisterScreen(navController)
+           RegisterScreen(navController, authViewModel)
         }
 
         composable(route = Screen.LoginScreen.route) {
-            LoginScreen(navController)
+            LoginScreen(navController, authViewModel)
+        }
+
+        composable(route = Screen.OfflineGameSelectionScreen.route) {
+            OfflineGameSelectionScreen(navController)
         }
 
         composable(route = Screen.GameSelectionScreen.route) {
-            GameSelectionScreen(navController)
+            GameSelectionScreen(navController,authViewModel)
         }
+
 
         composable(route = Screen.GeoQuizScreen.route) {
             GeoQuizScreen(navController, quizViewModel, "Geo")
