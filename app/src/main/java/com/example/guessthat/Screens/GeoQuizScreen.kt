@@ -28,6 +28,9 @@ import com.example.guessthat.widgets.SelectiveQuiz
 
 @Composable
 fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
+    var waitingRoom by remember { mutableStateOf(true) }
+    var singleOrMulti = "multi"
+
     var startButtonVisibility by remember { mutableStateOf(true) }
     Scaffold(topBar = { QuizTopAppBar(title = "Geo Quiz", navController = navController) }) {
             innerPadding ->
@@ -35,23 +38,41 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
             .padding(innerPadding)
             .fillMaxSize()
             .background(Color.LightGray),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            if(startButtonVisibility) {
-                Button(onClick = {
-                    viewModel.startQuiz(gameType)
-                    startButtonVisibility = false
-                }) {
-                    Text(text = "Start", fontSize = 25.sp)
+            horizontalAlignment = Alignment.CenterHorizontally)
+        {
+            if(singleOrMulti == "single")
+            {
+                if(startButtonVisibility) {
+                    Button(onClick = {
+                        viewModel.startQuiz(gameType)
+                        startButtonVisibility = false
+                    }) {
+                        Text(text = "Start", fontSize = 25.sp)
+                    }
+                }
+                else{
+                    SelectiveQuiz(innerPadding = innerPadding, viewModel = viewModel )
                 }
             }
-        else{
-                SelectiveQuiz(innerPadding = innerPadding, viewModel = viewModel )
+            else
+            {
+                if(waitingRoom)
+                {
+                    Text(text = "Waiting for opponent...")
+                    Button(onClick = {
+                        viewModel.startQuiz(gameType)
+                        waitingRoom = false
+                    }) {
+                        Text(text = "Accept Game")
+                    }
+                }
+                else
+                {
+                    SelectiveQuiz(innerPadding = innerPadding, viewModel = viewModel )
+                }
             }
         }
-
-
     }
-
 }
 
 @Composable
