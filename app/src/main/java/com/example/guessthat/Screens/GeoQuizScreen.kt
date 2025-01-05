@@ -30,6 +30,7 @@ import com.example.guessthat.widgets.SelectiveQuiz
 fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
     var waitingRoom by remember { mutableStateOf(true) }
     var singleOrMulti = "multi"
+    val player = "player"
 
     var startButtonVisibility by remember { mutableStateOf(true) }
     Scaffold(topBar = { QuizTopAppBar(title = "Geo Quiz", navController = navController) }) {
@@ -44,7 +45,7 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
             {
                 if(startButtonVisibility) {
                     Button(onClick = {
-                        viewModel.startQuiz(gameType)
+                        viewModel.startQuiz(player, gameType)
                         startButtonVisibility = false
                     }) {
                         Text(text = "Start", fontSize = 25.sp)
@@ -60,7 +61,7 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
                 {
                     Text(text = "Waiting for opponent...")
                     Button(onClick = {
-                        viewModel.startQuiz(gameType)
+                        viewModel.startQuiz(player, gameType)
                         waitingRoom = false
                     }) {
                         Text(text = "Accept Game")

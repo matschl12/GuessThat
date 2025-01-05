@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.example.guessthat.GameLogic.Question
 import com.example.guessthat.GameLogic.QuizGame
-import com.example.guessthat.GameLogic.calculateScore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -24,7 +23,7 @@ class QuizViewModel: ViewModel(){
         private set
     var answer4 by mutableStateOf("")
         private set
-    var score by mutableIntStateOf(0)
+    var scorePlayerOne by mutableIntStateOf(0)
         private set
     var solution by mutableStateOf("")
         private set
@@ -54,17 +53,21 @@ class QuizViewModel: ViewModel(){
     var questionNumText by mutableStateOf(questionNum.toString())
         private set
 
-
-
-
+    lateinit var quizGamez: QuizGame
     lateinit var quizQuestions: List<Question>
+    lateinit var playerOne: String
+    lateinit var playerTwo: String
 
 
-    fun startQuiz(gameType: String) {
-        val quizGame = QuizGame("Paul", gameType)
-        questionNum = 0
-        score = quizGame.score
-        quizQuestions = quizGame.selectQuestions()
+
+    fun startQuiz(playerOne: String, gameType: String) {
+        playerTwo = ""
+        this.playerOne = playerOne
+        quizGamez = QuizGame(playerOne, playerTwo, gameType)
+        questionNum = quizGamez.questionNum
+        scorePlayerOne = quizGamez.scorePlayerOne
+        quizGamez.selectQuestions()
+        quizQuestions = quizGamez.gameQuestions
         questionNumText = (questionNum+1).toString()
         question = quizQuestions[0].question
         answer1 = quizQuestions.getOrNull(0)?.answer1.toString()
@@ -86,7 +89,7 @@ class QuizViewModel: ViewModel(){
         solution = quizQuestions[questionNum].solution
     }
 
-    fun validateAnswer(buttonNum: Int, time: Float){
+    fun validateAnswer(player: String, buttonNum: Int, time: Float){
         if (quizQuestions[questionNum].answer1 == quizQuestions[questionNum].solution){
             _button1color.value = Color.Green
             _button2color.value = Color.Red
@@ -95,7 +98,8 @@ class QuizViewModel: ViewModel(){
 
             if(buttonNum == 1)
             {
-                score = calculateScore(score, gameType.value, time, "", solution)
+                quizGamez.addToScore(player, time, "", solution)
+                scorePlayerOne = quizGamez.scorePlayerOne
             }
 
 
@@ -108,7 +112,9 @@ class QuizViewModel: ViewModel(){
 
             if(buttonNum == 2)
             {
-                score = calculateScore(score, gameType.value, time, "", solution)
+                quizGamez.addToScore(player, time, "", solution)
+                scorePlayerOne = quizGamez.scorePlayerOne
+
             }
         }
         else if (quizQuestions[questionNum].answer3 == quizQuestions[questionNum].solution){
@@ -119,7 +125,9 @@ class QuizViewModel: ViewModel(){
 
             if(buttonNum == 3)
             {
-                score = calculateScore(score, gameType.value, time, "", solution)
+                quizGamez.addToScore(player, time, "", solution)
+                scorePlayerOne = quizGamez.scorePlayerOne
+
             }
         }
         else if (quizQuestions[questionNum].answer4 == quizQuestions[questionNum].solution){
@@ -130,12 +138,16 @@ class QuizViewModel: ViewModel(){
 
             if(buttonNum == 4)
             {
-                score = calculateScore(score, gameType.value, time, "", solution)
+                quizGamez.addToScore(player, time, "", solution)
+                scorePlayerOne = quizGamez.scorePlayerOne
+
             }
         }
     }
 
-    fun validateEstimation(guess: String, time: Float){
-        score = calculateScore(score, gameType.value, time, guess, solution)
+    fun validateEstimation(player: String, guess: String, time: Float){
+        quizGamez.addToScore(player, time, guess, solution)
+        scorePlayerOne = quizGamez.scorePlayerOne
+
     }
 }

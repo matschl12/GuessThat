@@ -30,6 +30,7 @@ import com.example.guessthat.widgets.SelectiveQuiz
 @Composable
 fun EstimationQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
     var startButtonVisibility by remember { mutableStateOf(true) }
+    val player = ""
     Scaffold(topBar = { QuizTopAppBar(title = "Estimation Quiz", navController = navController ) }) {
         innerPadding ->
         Column(modifier = Modifier
@@ -39,7 +40,7 @@ fun EstimationQuizScreen(navController: NavController, viewModel: QuizViewModel,
             horizontalAlignment = Alignment.CenterHorizontally) {
             if(startButtonVisibility) {
                 Button(onClick = {
-                    viewModel.startQuiz(gameType)
+                    viewModel.startQuiz(player, gameType)
                     startButtonVisibility = false
                 }) {
                     Text(text = "Start", fontSize = 25.sp)
