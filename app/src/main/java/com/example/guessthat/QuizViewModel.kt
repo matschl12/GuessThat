@@ -146,8 +146,15 @@ class QuizViewModel: ViewModel(){
     }
 
     fun validateEstimation(player: String, guess: String, time: Float){
-        quizGamez.addToScore(player, time, guess, solution)
-        scorePlayerOne = quizGamez.scorePlayerOne
-
+        if(guess.toIntOrNull() == null)
+        {
+            quizGamez.addToScore(player, time, "100000000000", solution)
+            scorePlayerOne = quizGamez.scorePlayerOne
+        }
+        else
+        {
+            quizGamez.addToScore(player, time, guess, solution)
+            scorePlayerOne = quizGamez.scorePlayerOne
+        }
     }
 }

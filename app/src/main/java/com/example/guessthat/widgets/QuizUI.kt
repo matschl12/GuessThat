@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
@@ -22,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -125,7 +127,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                 {
                     pressedButton = true
                     Button(onClick = {
-                        viewModel.startQuiz(gameType, player )
+                        viewModel.startQuiz(player, gameType)
                         pressedButton = false
                         changeQuestionButtonVisibility = false
                         time = "1.0"
@@ -138,7 +140,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                 {
                     pressedButton = true
                     Button(onClick = {
-                        viewModel.startQuiz(gameType, player)
+                        viewModel.startQuiz(player, gameType)
                         pressedButton = false
                         changeQuestionButtonVisibility = false
                         time = "1.0"
@@ -161,7 +163,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                     Text(text = "Remaining Time " + time)
                 }
             Row {
-                if(changeQuestionButtonVisibility)
+                if(changeQuestionButtonVisibility || time == "0.0")
                 {
                     Text(text = "Points made this round " + (viewModel.scorePlayerOne - oldScore))
                 }
@@ -202,7 +204,7 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
         Column {
             Row {
 
-                TextField(value = input, onValueChange = {input = it}, enabled = textFieldEnabled )
+                TextField(value = input, onValueChange = {input = it}, enabled = textFieldEnabled, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), singleLine = true )
             }
                 Button(onClick = {
                     viewModel.validateEstimation(player, input,time.toFloat())
@@ -253,7 +255,7 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             {
                 submitButtonVisibility = false
                 Button(onClick = {
-                    viewModel.startQuiz(gameType, player)
+                    viewModel.startQuiz(player, gameType)
                     changeQuestionButtonVisibility = false
                     submitButtonVisibility = true
                     textFieldEnabled = true
@@ -267,7 +269,7 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             if(changeQuestionButtonVisibility && viewModel.questionNum == 7)
             {
                 Button(onClick = {
-                    viewModel.startQuiz(gameType, player)
+                    viewModel.startQuiz(player, gameType)
                     changeQuestionButtonVisibility = false
                     submitButtonVisibility = true
                     textFieldEnabled = true
@@ -291,7 +293,7 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             Text(text = "Remaining Time " + time)
         }
         Row {
-            if(changeQuestionButtonVisibility)
+            if(changeQuestionButtonVisibility || time == "0.0")
             {
                 Text(text = "Points made this round " + (viewModel.scorePlayerOne - oldScore))
             }
