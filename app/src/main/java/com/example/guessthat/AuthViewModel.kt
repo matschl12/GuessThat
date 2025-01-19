@@ -3,10 +3,16 @@ package com.example.guessthat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class AuthViewModel: ViewModel() {
 
+    private val _serverAvailability = MutableStateFlow<Boolean?>(null) // if the server is available
+    val serverAvailability: StateFlow<Boolean?> get() = _serverAvailability
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val _authState = MutableLiveData<AuthState>()
@@ -75,6 +81,8 @@ class AuthViewModel: ViewModel() {
         _authState.value = AuthState.Unauthenticated
     }
 
+
+
 }
 
 sealed class AuthState{
@@ -83,3 +91,4 @@ sealed class AuthState{
     object Loading: AuthState()
     data class Error(val message : String) : AuthState()
 }
+

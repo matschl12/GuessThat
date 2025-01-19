@@ -29,6 +29,8 @@ import com.example.guessthat.widgets.SelectiveQuiz
 @Composable
 fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
     var waitingRoom by remember { mutableStateOf(true) }
+    var response by remember { mutableStateOf("") }
+
     var singleOrMulti = "multi"
     val player = "player"
 
@@ -65,6 +67,10 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
                         waitingRoom = false
                     }) {
                         Text(text = "Accept Game")
+                    }
+                    Text(text = "Server is " + response)
+                    Button(onClick = { response = viewModel.serverCheck().toString() }) {
+                        Text(text = "Check server ")
                     }
                 }
                 else

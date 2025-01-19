@@ -12,8 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.guessthat.Navigation.Navigation
+import com.example.guessthat.Navigation.main
 import com.example.guessthat.Screens.StartScreen
 import com.example.guessthat.ui.theme.GuessThatTheme
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.request.get
+import io.ktor.client.statement.HttpResponse
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

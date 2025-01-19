@@ -6,10 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.guessthat.GameLogic.Question
 import com.example.guessthat.GameLogic.QuizGame
+import com.example.guessthat.data.Repository
+import io.ktor.client.statement.HttpResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class QuizViewModel: ViewModel(){
 
@@ -48,6 +56,24 @@ class QuizViewModel: ViewModel(){
     private val _time = MutableStateFlow("")
     var time = _time.asStateFlow()
 
+
+    private val _response = MutableStateFlow<String?>(null)
+    val response: StateFlow<String?> get() = _response
+
+
+    private val job = SupervisorJob()
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
+    fun serverCheck()
+    {
+        coroutineScope.launch(Dispatchers.IO) {
+            _response.value = Repository.serverCheck()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel() // Beende alle Coroutines
+    }
 
     var questionNum = 0
     var questionNumText by mutableStateOf(questionNum.toString())

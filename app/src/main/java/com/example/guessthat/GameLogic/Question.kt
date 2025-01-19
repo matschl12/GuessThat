@@ -1,5 +1,6 @@
 package com.example.guessthat.GameLogic
 
+@kotlinx.serialization.Serializable
 data class Question(
     val question: String,
     val answer1: String?,
@@ -9,7 +10,7 @@ data class Question(
     val solution: String,
     var id: String
 )
-fun getQuestions(): List<Question> {
+fun getQuestions(): List<Question> { //for offline game
     return listOf(
         Question(
             "Welches ist das Land mit den meisten Einwohnern?",
