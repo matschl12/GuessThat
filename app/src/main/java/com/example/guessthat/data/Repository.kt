@@ -1,12 +1,16 @@
 package com.example.guessthat.data
 
-import com.example.guessthat.GameLogic.Question
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.websocket.WebSockets
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class Repository() {
-    companion object {
-        //suspend fun getQuestions(): List<Question>? = questionRequest() //to get questions from server
-        suspend fun serverCheck(): String? = availableRequest(client) //to check if server is running
+object Repository {
+    private val client = HttpClient {
+        install(WebSockets)
+    }
 
+    suspend fun serverCheck(): String? = withContext(Dispatchers.IO) {
+        WebService.availableRequest(client)
     }
 }

@@ -58,15 +58,16 @@ class QuizViewModel: ViewModel(){
 
 
     private val _response = MutableStateFlow<String?>(null)
-    val response: StateFlow<String?> get() = _response
+    val response: StateFlow<String?> = _response.asStateFlow()
 
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
     fun serverCheck()
     {
-        coroutineScope.launch(Dispatchers.IO) {
-            _response.value = Repository.serverCheck()
+        viewModelScope.launch {
+            val result = Repository.serverCheck()
+            _response.value = result
         }
     }
 

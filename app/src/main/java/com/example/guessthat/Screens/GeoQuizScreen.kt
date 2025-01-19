@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +30,7 @@ import com.example.guessthat.widgets.SelectiveQuiz
 @Composable
 fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
     var waitingRoom by remember { mutableStateOf(true) }
-    var response by remember { mutableStateOf("") }
+    val response by  viewModel.response.collectAsState()
 
     var singleOrMulti = "multi"
     val player = "player"
@@ -69,7 +70,7 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
                         Text(text = "Accept Game")
                     }
                     Text(text = "Server is " + response)
-                    Button(onClick = { response = viewModel.serverCheck().toString() }) {
+                    Button(onClick = { viewModel.serverCheck() }) {
                         Text(text = "Check server ")
                     }
                 }
