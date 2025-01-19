@@ -40,17 +40,6 @@ class QuizGame(val playerOne: String, val playerTwo: String, gameType: String) {
     }
 
     fun addToScore(player: String, time: Float, guess: String, solution: String) {
-       // var playerScore = scorePlayerOne
-        /*
-        if(player == playerOne)
-        {
-            playerScore = scorePlayerOne
-        }
-        else
-        {
-             playerScore = scorePlayerTwo
-        }
-        */
         val actualTime = 8f - time
 
         if (gameType == "Geo" || gameType == "Sport") { //Formula: (1 - actualTime / 8) * 100           -> MAX 100 pts per round
@@ -81,33 +70,9 @@ class QuizGame(val playerOne: String, val playerTwo: String, gameType: String) {
 
 }
 
-/*
-fun calculateScore(prevScore: Int, gameType: String, time: Float, guess: String, solution: String): Int {
-    val actualTime = 8f - time
+fun startSinglePlayerQuiz(player: String, gameType: String) {
+    val quizGame = QuizGame(player, "", gameType)
+    val questions = quizGame.selectQuestions()
 
-    if (gameType == "Geo" || gameType == "Sport") { //Formula: (1 - actualTime / 8) * 100           -> MAX 100 pts per round
-        val calculation :Float = (1 - (actualTime/8)) * 100
-        return (prevScore + calculation).toInt()
-    } else if (gameType == "Estimation") { //Formula: ((answer / solution) * 100) * (1 - (actualTime / 8))          -> MAX 100 pts per round EXCEPT right guess then 100 bonus points
 
-        val calculation :Float = (guess.toFloat() / solution.toFloat()) * 100
-        val calculation2 :Float = 1 - (actualTime/8)
-
-        if (calculation > 100.00 && calculation < 200.00) { //if guess is higher than solution BUT not double or more -> (200 - (answer / solution) * 100)) * (1 - (actualTime / 8))
-            return (prevScore + (200 - calculation) * calculation2).toInt()
-        }
-        else if (calculation > 0.00 && calculation < 100.00) {
-            return (prevScore + calculation * calculation2).toInt()
-        }
-        else if (calculation > 200.00)
-        {
-            return prevScore
-        }
-        else
-        {
-            return ((prevScore + calculation * calculation2)+100).toInt()    //100 Bonus points for getting the right guess
-        }
-    }
-    return prevScore
 }
-*/

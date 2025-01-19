@@ -27,4 +27,58 @@ object WebService {
         }
         response
     }
+
+    suspend fun joinGeoGame(client: HttpClient): String? = withContext(Dispatchers.IO) {
+        var response: String? = null
+        try {
+            client.webSocket("ws://10.0.2.2:8111/join/geo") { // Special IP address because the emulator has his own localhost ip
+                for (frame in incoming) {
+                    if (frame is Frame.Text) {
+                        response = frame.readText()
+                        println("Received: $response")
+                        break
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        response
+    }
+
+    suspend fun joinSportsGame(client: HttpClient): String? = withContext(Dispatchers.IO) {
+        var response: String? = null
+        try {
+            client.webSocket("ws://10.0.2.2:8111/join/sports") { // Special IP address because the emulator has his own localhost ip
+                for (frame in incoming) {
+                    if (frame is Frame.Text) {
+                        response = frame.readText()
+                        println("Received: $response")
+                        break
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        response
+    }
+
+    suspend fun joinEstimationGame(client: HttpClient): String? = withContext(Dispatchers.IO) {
+        var response: String? = null
+        try {
+            client.webSocket("ws://10.0.2.2:8111/join/estimation") { // Special IP address because the emulator has his own localhost ip
+                for (frame in incoming) {
+                    if (frame is Frame.Text) {
+                        response = frame.readText()
+                        println("Received: $response")
+                        break
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        response
+    }
 }

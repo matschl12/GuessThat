@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.guessthat.AuthState
 import com.example.guessthat.Navigation.Screen
 import com.example.guessthat.QuizViewModel
 import com.example.guessthat.widgets.QuizTopAppBar
@@ -62,16 +64,23 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
             {
                 if(waitingRoom)
                 {
-                    Text(text = "Waiting for opponent...")
-                    Button(onClick = {
-                        viewModel.startQuiz(player, gameType)
-                        waitingRoom = false
-                    }) {
-                        Text(text = "Accept Game")
+                    viewModel.serverCheck()
+                    if (response != null)
+                    {
+                        Text(text = "Server is currently " +response, color = Color.Green)
+                        viewModel.joinGeoGame()
+                        Text(text = "Waiting for opponent...")
+                        Button(onClick = {
+                            viewModel.startQuiz(player, gameType)
+                            waitingRoom = false
+                        }) {
+                            Text(text = "Accept Game")
+                        }
+
                     }
-                    Text(text = "Server is " + response)
-                    Button(onClick = { viewModel.serverCheck() }) {
-                        Text(text = "Check server ")
+                    else
+                    {
+                        Text(text = "Server is currently offline", color = Color.Red)
                     }
                 }
                 else

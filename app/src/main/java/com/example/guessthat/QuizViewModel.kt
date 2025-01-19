@@ -76,6 +76,13 @@ class QuizViewModel: ViewModel(){
         job.cancel() // Beende alle Coroutines
     }
 
+    fun joinGeoGame() {
+        viewModelScope.launch {
+            val result = Repository.joinGeoGame()
+            _response.value = result
+        }
+    }
+
     var questionNum = 0
     var questionNumText by mutableStateOf(questionNum.toString())
         private set
