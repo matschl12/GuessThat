@@ -1,44 +1,30 @@
 package com.example.guessthat.GameLogic
 
-import kotlin.properties.Delegates
-
-
-class QuizGame(val playerOne: String, val playerTwo: String, gameType: String) {
-    val questionz = getQuestions()
-    lateinit var gameQuestions : List<Question>
-    val gameType = gameType
+class QuizGame(val playerOne: String, val playerTwo: String,  val gameType: String) {
+    private val questions = getQuestions()
+    var currentQuestionIndex = 0
+    lateinit var gameQuestions: List<Question>
     var scorePlayerOne = 0
     var scorePlayerTwo = 0
-    var questionNum = 0
 
-    fun selectQuestions() {
-        if (gameType == "Geo")
-        {
-            var selectedQuestions = questionz
-                .filter{question -> question.id == "Geo"}
-                .shuffled()
-                .take(8)
-            gameQuestions = selectedQuestions
-        }
-        else if (gameType == "Sport")
-        {
-            var selectedQuestions = questionz
-                .filter{question -> question.id == "Sport"}
-                .shuffled()
-                .take(8)
-            gameQuestions = selectedQuestions
-        }
-        else if (gameType == "Estimation")
-        {
-            var selectedQuestions = questionz
-                .filter{question -> question.id == "Estimation"}
-                .shuffled()
-                .take(8)
-            gameQuestions = selectedQuestions
-        }
-
+    init {
+        selectQuestions()
     }
 
+    private fun selectQuestions() {
+        gameQuestions = questions.filter { it.id == gameType }.shuffled().take(8)
+    }
+
+    fun getCurrentQuestion(): Question = gameQuestions[currentQuestionIndex]
+
+    fun goToNextQuestion(): Boolean {
+        return if (currentQuestionIndex + 1 < gameQuestions.size) {
+            currentQuestionIndex++
+            true
+        } else {
+            false // Keine weiteren Fragen
+        }
+    }
     fun addToScore(player: String, time: Float, guess: String, solution: String) {
         val actualTime = 8f - time
 
@@ -54,7 +40,7 @@ class QuizGame(val playerOne: String, val playerTwo: String, gameType: String) {
                 scorePlayerOne =  (scorePlayerOne + (200 - calculation) * calculation2).toInt()
             }
             else if (calculation > 0.00 && calculation < 100.00) {
-               scorePlayerOne = (scorePlayerOne + calculation * calculation2).toInt()
+                scorePlayerOne = (scorePlayerOne + calculation * calculation2).toInt()
             }
             else if (calculation > 200.00)
             {
@@ -67,12 +53,5 @@ class QuizGame(val playerOne: String, val playerTwo: String, gameType: String) {
         }
 
     }
-
-}
-
-fun startSinglePlayerQuiz(player: String, gameType: String) {
-    val quizGame = QuizGame(player, "", gameType)
-    val questions = quizGame.selectQuestions()
-
 
 }

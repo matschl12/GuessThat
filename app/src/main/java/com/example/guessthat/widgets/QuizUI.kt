@@ -54,7 +54,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                 Text(text = "Score: " + viewModel.scorePlayerOne,  fontSize = 25.sp)
             }
             Column {
-                Text(text = "Question " + viewModel.questionNumText + "/8", fontSize = 25.sp)
+                Text(text = "Question " + viewModel.questionNum + "/8", fontSize = 25.sp)
             }
             Spacer(modifier = Modifier.height(40.dp))
             Column {
@@ -97,7 +97,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             }
             Spacer(modifier = Modifier.height(40.dp))
             Row{
-                if ( time == "0.0" && viewModel.questionNum != 7)
+                if ( time == "0.0" && viewModel.quizGame.currentQuestionIndex != 7)
                 {
                     pressedButton = true
                     Button(onClick = {
@@ -110,7 +110,7 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                         Text(text = "Next Question")
                     }
                 }
-                if(changeQuestionButtonVisibility && viewModel.questionNum != 7)
+                if(changeQuestionButtonVisibility && viewModel.quizGame.currentQuestionIndex != 7)
                 {
                     pressedButton = true
                     Button(onClick = {
@@ -123,11 +123,11 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                         Text(text = "Next Question")
                     }
                 }
-                if(time == "0.0" && viewModel.questionNum == 7)
+                if(time == "0.0" && viewModel.quizGame.currentQuestionIndex == 7 )
                 {
                     pressedButton = true
                     Button(onClick = {
-                        viewModel.startQuiz(player, gameType)
+                        viewModel.startQuiz(player, "", gameType)
                         pressedButton = false
                         changeQuestionButtonVisibility = false
                         time = "1.0"
@@ -136,11 +136,11 @@ fun SelectiveQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                         Text(text = "Restart Quiz")
                     }
                 }
-                if(changeQuestionButtonVisibility && viewModel.questionNum == 7 )
+                if(changeQuestionButtonVisibility && viewModel.quizGame.currentQuestionIndex == 7)
                 {
                     pressedButton = true
                     Button(onClick = {
-                        viewModel.startQuiz(player, gameType)
+                        viewModel.startQuiz(player,"",  gameType)
                         pressedButton = false
                         changeQuestionButtonVisibility = false
                         time = "1.0"
@@ -194,7 +194,7 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
             Text(text = "Score: " + viewModel.scorePlayerOne,  fontSize = 25.sp)
         }
         Column {
-            Text(text = "Question " + viewModel.questionNumText + "/8", fontSize = 25.sp)
+            Text(text = "Question " + viewModel.questionNum + "/8", fontSize = 25.sp)
         }
         Spacer(modifier = Modifier.height(40.dp))
         Column {
@@ -223,7 +223,7 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
         }
         Spacer(modifier = Modifier.height(40.dp))
         Row{
-            if (time == "0.0" && viewModel.questionNum != 7)
+            if (time == "0.0" && viewModel.quizGame.currentQuestionIndex != 7)
             {
                 submitButtonVisibility = false
                 Button(onClick = {
@@ -238,7 +238,7 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                     Text(text = "Next Question")
                 }
             }
-            if(changeQuestionButtonVisibility && viewModel.questionNum != 7)
+            if(changeQuestionButtonVisibility && viewModel.quizGame.currentQuestionIndex != 7)
             {
                 Button(onClick = {
                     viewModel.nextQuestion()
@@ -251,11 +251,11 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                     Text(text = "Next Question")
                 }
             }
-            if (time == "0.0" && viewModel.questionNum == 7)
+            if (time == "0.0" && viewModel.quizGame.currentQuestionIndex == 7)
             {
                 submitButtonVisibility = false
                 Button(onClick = {
-                    viewModel.startQuiz(player, gameType)
+                    viewModel.startQuiz(player, "", gameType)
                     changeQuestionButtonVisibility = false
                     submitButtonVisibility = true
                     textFieldEnabled = true
@@ -266,10 +266,10 @@ fun KeyboardQuiz(innerPadding: PaddingValues, viewModel: QuizViewModel){
                     Text(text = "Restart Quiz")
                 }
             }
-            if(changeQuestionButtonVisibility && viewModel.questionNum == 7)
+            if(changeQuestionButtonVisibility && viewModel.quizGame.currentQuestionIndex == 7)
             {
                 Button(onClick = {
-                    viewModel.startQuiz(player, gameType)
+                    viewModel.startQuiz(player,"", gameType)
                     changeQuestionButtonVisibility = false
                     submitButtonVisibility = true
                     textFieldEnabled = true

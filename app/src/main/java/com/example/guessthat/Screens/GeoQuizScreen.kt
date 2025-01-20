@@ -50,7 +50,7 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
             {
                 if(startButtonVisibility) {
                     Button(onClick = {
-                        viewModel.startQuiz(player, gameType)
+                        viewModel.startQuiz(player, "", gameType)
                         startButtonVisibility = false
                     }) {
                         Text(text = "Start", fontSize = 25.sp)
@@ -68,10 +68,9 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
                     if (response != null)
                     {
                         Text(text = "Server is currently " +response, color = Color.Green)
-                        viewModel.joinGeoGame()
                         Text(text = "Waiting for opponent...")
                         Button(onClick = {
-                            viewModel.startQuiz(player, gameType)
+                            viewModel.startQuiz(player,"", gameType)
                             waitingRoom = false
                         }) {
                             Text(text = "Accept Game")

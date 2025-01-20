@@ -40,7 +40,7 @@ fun EstimationQuizScreen(navController: NavController, viewModel: QuizViewModel,
             horizontalAlignment = Alignment.CenterHorizontally) {
             if(startButtonVisibility) {
                 Button(onClick = {
-                    viewModel.startQuiz(player, gameType)
+                    viewModel.startQuiz(player, "", gameType)
                     startButtonVisibility = false
                 }) {
                     Text(text = "Start", fontSize = 25.sp)
