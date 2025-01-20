@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     kotlin("plugin.serialization") version "2.1.0"
+    id("com.google.dagger.hilt.android") version "2.51.1" apply false
+    id("kotlin-kapt")
 }
 
 android {
@@ -79,6 +81,7 @@ dependencies {
 
     implementation("ch.qos.logback:logback-classic:1.2.11")
 
+    implementation(libs.hilt.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

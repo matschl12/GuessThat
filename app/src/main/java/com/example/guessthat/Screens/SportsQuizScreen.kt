@@ -65,12 +65,11 @@ fun SportsQuizScreen(navController: NavController, viewModel: QuizViewModel, gam
                     if (response != null)
                     {
                         Text(text = "Server is currently " +response, color = Color.Green)
-                        Text(text = "Waiting for opponent...")
                         Button(onClick = {
                             viewModel.startQuiz(player,"", gameType)
                             waitingRoom = false
-                        }) {
-                            Text(text = "Accept Game")
+                        }, enabled = false) {
+                            Text(text = "Play Game")
                         }
 
                     }

@@ -11,7 +11,10 @@ import com.example.guessthat.Screens.EstimationQuizScreen
 import com.example.guessthat.Screens.GameSelectionScreen
 import com.example.guessthat.Screens.GeoQuizScreen
 import com.example.guessthat.Screens.LoginScreen
+import com.example.guessthat.Screens.OfflineEstimationQuizScreen
 import com.example.guessthat.Screens.OfflineGameSelectionScreen
+import com.example.guessthat.Screens.OfflineGeoQuizScreen
+import com.example.guessthat.Screens.OfflineSportsQuizScreen
 import com.example.guessthat.Screens.RegisterScreen
 import com.example.guessthat.Screens.SportsQuizScreen
 import com.example.guessthat.Screens.StartScreen
@@ -48,6 +51,9 @@ fun Navigation()
             GameSelectionScreen(navController,authViewModel)
         }
 
+        composable(route = Screen.OfflineGeoQuizScreen.route) {
+            OfflineGeoQuizScreen(navController, quizViewModel, "Geo")
+        }
 
         composable(route = Screen.GeoQuizScreen.route) {
             GeoQuizScreen(navController, quizViewModel, "Geo")
@@ -55,6 +61,14 @@ fun Navigation()
 
         composable(route = Screen.EstimationQuizScreen.route) {
             EstimationQuizScreen(navController, quizViewModel, "Estimation")
+        }
+
+        composable(route = Screen.OfflineEstimationQuizScreen.route) {
+            OfflineEstimationQuizScreen(navController, quizViewModel, "Estimation")
+        }
+
+        composable(route = Screen.OfflineSportsQuizScreen.route) {
+            OfflineSportsQuizScreen(navController, quizViewModel, "Sport")
         }
 
         composable(route = Screen.SportsQuizScreen.route) {

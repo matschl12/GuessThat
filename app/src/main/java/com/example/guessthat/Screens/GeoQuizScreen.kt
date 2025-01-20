@@ -33,10 +33,7 @@ import com.example.guessthat.widgets.SelectiveQuiz
 fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
     var waitingRoom by remember { mutableStateOf(true) }
     val response by  viewModel.response.collectAsState()
-
-    var singleOrMulti = "multi"
     val player = "player"
-
     var startButtonVisibility by remember { mutableStateOf(true) }
     Scaffold(topBar = { QuizTopAppBar(title = "Geo Quiz", navController = navController) }) {
             innerPadding ->
@@ -46,36 +43,19 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
             .background(Color.LightGray),
             horizontalAlignment = Alignment.CenterHorizontally)
         {
-            if(singleOrMulti == "single")
-            {
-                if(startButtonVisibility) {
-                    Button(onClick = {
-                        viewModel.startQuiz(player, "", gameType)
-                        startButtonVisibility = false
-                    }) {
-                        Text(text = "Start", fontSize = 25.sp)
-                    }
-                }
-                else{
-                    SelectiveQuiz(innerPadding = innerPadding, viewModel = viewModel )
-                }
-            }
-            else
-            {
                 if(waitingRoom)
                 {
                     viewModel.serverCheck()
                     if (response != null)
                     {
                         Text(text = "Server is currently " +response, color = Color.Green)
-                        Text(text = "Waiting for opponent...")
                         Button(onClick = {
                             viewModel.startQuiz(player,"", gameType)
                             waitingRoom = false
-                        }) {
-                            Text(text = "Accept Game")
-                        }
 
+                        }, enabled = false) {
+                            Text(text = "Play Game")
+                        }
                     }
                     else
                     {
@@ -86,9 +66,9 @@ fun GeoQuizScreen(navController: NavController, viewModel: QuizViewModel, gameTy
                 {
                     SelectiveQuiz(innerPadding = innerPadding, viewModel = viewModel )
                 }
-            }
         }
     }
+
 }
 
 @Composable

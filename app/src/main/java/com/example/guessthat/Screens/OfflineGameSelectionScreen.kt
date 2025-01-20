@@ -33,19 +33,19 @@ fun OfflineGameSelectionScreen(navController: NavController) {
             Text(
                 text = "Game Selection",
             )
-            Button(onClick = { navController.navigate(Screen.GeoQuizScreen.route)}) {
+            Button(onClick = { navController.navigate(Screen.OfflineGeoQuizScreen.route)}) {
                 Text(
                     text = "Geo Quiz",
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = { navController.navigate(Screen.EstimationQuizScreen.route)}) {
+            Button(onClick = { navController.navigate(Screen.OfflineEstimationQuizScreen.route)}) {
                 Text(
                     text = "Estimation Quiz",
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = { navController.navigate(Screen.SportsQuizScreen.route)}) {
+            Button(onClick = { navController.navigate(Screen.OfflineSportsQuizScreen.route)}) {
                 Text(
                     text = "Sports Quiz",
                 )

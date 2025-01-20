@@ -10,7 +10,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,41 +28,25 @@ import com.example.guessthat.widgets.QuizTopAppBar
 import com.example.guessthat.widgets.SelectiveQuiz
 
 @Composable
-fun EstimationQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
-
-    var waitingRoom by remember { mutableStateOf(true) }
-
-    val response by  viewModel.response.collectAsState()
+fun OfflineEstimationQuizScreen(navController: NavController, viewModel: QuizViewModel, gameType: String) {
     var startButtonVisibility by remember { mutableStateOf(true) }
     val player = ""
     Scaffold(topBar = { QuizTopAppBar(title = "Estimation Quiz", navController = navController ) }) {
-        innerPadding ->
+            innerPadding ->
         Column(modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize()
             .background(Color.LightGray),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            if(waitingRoom)
-            {
-                viewModel.serverCheck()
-                if (response != null)
-                {
-                    Text(text = "Server is currently " +response, color = Color.Green)
-                    Button(onClick = {
-                        viewModel.startQuiz(player,"", gameType)
-                        waitingRoom = false
-
-                    }, enabled = false) {
-                        Text(text = "Play Game")
-                    }
-                }
-                else
-                {
-                    Text(text = "Server is currently offline", color = Color.Red)
+            if(startButtonVisibility) {
+                Button(onClick = {
+                    viewModel.startQuiz(player, "", gameType)
+                    startButtonVisibility = false
+                }) {
+                    Text(text = "Start", fontSize = 25.sp)
                 }
             }
-            else
-            {
+            else{
                 KeyboardQuiz(innerPadding = innerPadding, viewModel = viewModel )
             }
         }
