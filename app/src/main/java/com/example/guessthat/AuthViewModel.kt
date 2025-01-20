@@ -11,8 +11,6 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel: ViewModel() {
 
-    private val _serverAvailability = MutableStateFlow<Boolean?>(null) // if the server is available
-    val serverAvailability: StateFlow<Boolean?> get() = _serverAvailability
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val _authState = MutableLiveData<AuthState>()
@@ -39,20 +37,23 @@ class AuthViewModel: ViewModel() {
         if(email.isEmpty() || password.isEmpty())
         {
             _authState.value = AuthState.Error("Email or password can't be empty")
-        }
 
-        _authState.value = AuthState.Loading
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener{task->
-                if (task.isSuccessful)
-                {
-                    _authState.value = AuthState.Authenticated
+        }
+        else
+        {
+            _authState.value = AuthState.Loading
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener{task->
+                    if (task.isSuccessful)
+                    {
+                        _authState.value = AuthState.Authenticated
+                    }
+                    else
+                    {
+                        _authState.value = AuthState.Error(task.exception?.message?:"Something went wrong")
+                    }
                 }
-                else
-                {
-                    _authState.value = AuthState.Error(task.exception?.message?:"Something went wrong")
-                }
-            }
+        }
     }
 
     fun signUp(email: String, password: String){
@@ -61,19 +62,21 @@ class AuthViewModel: ViewModel() {
         {
             _authState.value = AuthState.Error("Email or password can't be empty")
         }
-
-        _authState.value = AuthState.Loading
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener{task->
-                if (task.isSuccessful)
-                {
-                    _authState.value = AuthState.Authenticated
+        else
+        {
+            _authState.value = AuthState.Loading
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener{task->
+                    if (task.isSuccessful)
+                    {
+                        _authState.value = AuthState.Authenticated
+                    }
+                    else
+                    {
+                        _authState.value = AuthState.Error(task.exception?.message?:"Something went wrong")
+                    }
                 }
-                else
-                {
-                    _authState.value = AuthState.Error(task.exception?.message?:"Something went wrong")
-                }
-            }
+        }
     }
 
     fun signOut(){

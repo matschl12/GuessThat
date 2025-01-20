@@ -13,7 +13,7 @@ data class Question(
 fun getQuestions(): List<Question> { //for offline game
     return listOf(
         Question(
-            "Welches ist das Land mit den meisten Einwohnern?",
+            "Welches Land hat die meisten Einwohner?",
             "Pakistan",
             "China",
             "Indien",
@@ -31,7 +31,7 @@ fun getQuestions(): List<Question> { //for offline game
             "Geo"
         ),
         Question(
-            "Die Hauptstadt der Türkei lautet...",
+            "Die Hauptstadt der Türkei ist...",
             "Ankara",
             "Istanbul",
             "Trabzon",
@@ -49,7 +49,7 @@ fun getQuestions(): List<Question> { //for offline game
             "Geo"
         ),
         Question(
-            "Die Hauptstadt Brasiliens lautet...",
+            "Die Hauptstadt Brasiliens ist...",
             "Sao Paolo",
             "Brasilia",
             "Rio de Janeiro",
@@ -58,7 +58,7 @@ fun getQuestions(): List<Question> { //for offline game
             "Geo"
         ),
         Question(
-            "Miami befindet sich in welchem Bundesstaat?",
+            "In welchem Bundesstaat befindet sich Miami?",
             "Georgia",
             "Kalifornien",
             "Florida",
@@ -121,7 +121,7 @@ fun getQuestions(): List<Question> { //for offline game
             "Geo"
         ),
         Question(
-            "Die größte Insel Griechenlands lautet...",
+            "Die größte Insel Griechenlands ist...",
             "Kreta",
             "Zypern",
             "Mykonos",
@@ -166,7 +166,7 @@ fun getQuestions(): List<Question> { //for offline game
                 "Sport"
             ),
             Question(
-                "Die ersten Olympischen Spiele der Neuzeit fanden wo statt?",
+                "Wo fanden die ersten Olympischen Spiele der Neuzeit statt?",
                 "Paris",
                 "Berlin",
                 "London",
@@ -175,7 +175,7 @@ fun getQuestions(): List<Question> { //for offline game
                 "Sport"
             ),
             Question(
-                "Welche Person gewann die meisten Olympischen Medallien",
+                "Welche Person gewann die meisten olympischen Medallien",
                 "Usain Bolt",
                 "Michael Phelps",
                 "Isabell Werth",
@@ -229,12 +229,12 @@ fun getQuestions(): List<Question> { //for offline game
                 "Sport"
             ),
             Question(
-                "Was ist die kürzeste olympische Sprintdistanz? (In Metern)",
-                "100",
-                "60",
-                "50",
-                "80",
-                "100",
+                "Was ist die kürzeste olympische Sprintdistanz?",
+                "100 Meter",
+                "60 Meter",
+                "50 Meter",
+                "80 Meter",
+                "100 Meter",
                 "Sport"
             ),
             Question(
